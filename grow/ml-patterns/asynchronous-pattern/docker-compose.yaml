@@ -1,0 +1,31 @@
+version: "3.0"
+services:
+
+  redis:
+    container_name: redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+
+  api:
+    build:
+      context: .
+    volumes:
+      - .:/home/app
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - 9090:8000
+
+  celery_worker:
+    build:
+      context: .
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: celery -A src.core.worker worker --loglevel=info
+    volumes:
+      - .:/home/app
+    depends_on:
+      - api

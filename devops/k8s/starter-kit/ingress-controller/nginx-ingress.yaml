@@ -1,0 +1,38 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-backend
+  namespace: backend
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/issuer: "letsencrypt-nginx"
+spec:
+  tls:
+    - hosts:
+        - echo.starter-kit.online
+      secretName: echo-tls
+  rules:
+    - host: chanchuachin.online
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: echo
+                port:
+                  number: 80
+    # - host: quote.starter-kit.online
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: quote
+    #             port:
+    #               number: 80
+
+  ingressClassName: nginx

@@ -1,0 +1,12 @@
+fastapi
+pillow
+pydantic==1.9.0
+uvicorn
+python-multipart
+fastapi_health
+google_api_python_client==2.47.0
+numpy==1.22.3
+aiofiles==0.8.0
+onnxruntime
+celery
+redis

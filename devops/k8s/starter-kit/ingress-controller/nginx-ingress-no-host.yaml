@@ -1,0 +1,29 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-backend-no-host
+  namespace: backend
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /echo
+        pathType: Prefix
+        backend:
+          service:
+            name: echo
+            port:
+              number: 80
+              
+      - path: /quote
+        pathType: Prefix
+        backend:
+          service:
+            name: quote
+            port:
+              number: 80
+  ingressClassName: nginx
