@@ -4,3 +4,5 @@ drive-service.json
 volumes
 data
 *.onnx
+.terraform
+gcp-sa.json 
