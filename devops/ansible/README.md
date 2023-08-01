@@ -1,0 +1,2 @@
+- ansible all -m ping -u root -i hosts.ini 
+- ansible-playbook playbook.yaml -i hosts.ini 
